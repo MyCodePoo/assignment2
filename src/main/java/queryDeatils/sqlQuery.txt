@@ -1,0 +1,65 @@
+mysql> CREATE DATABASE IF NOT EXISTS spring_security_db;
+Query OK, 1 row affected (0.11 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              | |
+| spring_security_db |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE IF NOT EXISTS `users` (
+    ->   `username` varchar(25) NOT NULL,
+    ->   `password` varchar(15) NOT NULL,
+    ->   `enabled` tinyint(4) NOT NULL DEFAULT '1',
+    ->   PRIMARY KEY (`username`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ERROR 1046 (3D000): No database selected
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |    |
+| spring_security_db |
+| test               |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use spring_security_db;
+Database changed
+mysql> CREATE TABLE IF NOT EXISTS `users` (
+    ->   `username` varchar(25) NOT NULL,
+    ->   `password` varchar(15) NOT NULL,
+    ->   `enabled` tinyint(4) NOT NULL DEFAULT '1',
+    ->   PRIMARY KEY (`username`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+Query OK, 0 rows affected (0.54 sec)
+
+mysql> CREATE TABLE IF NOT EXISTS `user_roles` (
+    ->   `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
+    ->   `username` varchar(25) NOT NULL,
+    ->   `ROLE` varchar(20) NOT NULL,
+    ->   PRIMARY KEY (`user_role_id`),
+    ->   UNIQUE KEY `uni_username_role` (`ROLE`,`username`),
+    ->   KEY `fk_username_idx` (`username`),
+    ->   CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `users` (`
+username`)
+    -> ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> show tables
+    -> ;
++------------------------------+
+| Tables_in_spring_security_db |
++------------------------------+
+| user_roles                   |
+| users                        |
++------------------------------+
+2 rows in set (0.07 sec)
+
+mysql>
